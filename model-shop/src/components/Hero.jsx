@@ -1,4 +1,5 @@
-export default function Hero({ onOpenSellModal }) {
+
+function Hero({ onOpenSellModal }) {
   return (
     <section className="bg-slate-900 border border-slate-800 rounded-2xl p-8 my-6 text-center">
       <h1 className="text-3xl font-extrabold text-white">AI Model Marketplace</h1>
@@ -14,3 +15,4 @@ export default function Hero({ onOpenSellModal }) {
     </section>
   );
 }
+export default Hero;
