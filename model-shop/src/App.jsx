@@ -4,8 +4,9 @@ import Hero from './components/Hero';
 import FilterSidebar from './components/FilterSidebar';
 import ModelGrid from './components/ModelGrid';
 import ModelDetailModal from './components/ModelDetailModal';
-import SellModelModal from './components/SellModelModal';
-import CreatorDashboard from './components/CreatorDashboard';
+import SellModelModal, {
+  CreatorDashboard,
+} from './components/SellModelModal';
 
 export default function App() {
   const [currentView, setCurrentView] = useState('marketplace'); // 'marketplace' or 'dashboard'
@@ -13,6 +14,21 @@ export default function App() {
   const [selectedPriceTier, setSelectedPriceTier] = useState('All');
   const [selectedModel, setSelectedModel] = useState(null);
   const [isSellModalOpen, setIsSellModalOpen] = useState(false);
+  const [models, setModels] = useState([]);
+
+  const handleAddModel = (newModel) => {
+    setModels((currentModels) => [
+      ...currentModels,
+      {
+        ...newModel,
+        id: Date.now(),
+        sales: 0,
+        status: 'Active',
+      },
+    ]);
+
+    setIsSellModalOpen(false);
+  };
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans">
@@ -51,7 +67,7 @@ export default function App() {
           </div>
         </main>
       ) : (
-        /* Creator Dashboard View */
+        /* Creator Dashboard View */ 
         <main className="max-w-7xl mx-auto px-4 py-8">
           <CreatorDashboard onOpenSellModal={() => setIsSellModalOpen(true)} />
         </main>
@@ -68,6 +84,7 @@ export default function App() {
       {isSellModalOpen && (
         <SellModelModal 
           onClose={() => setIsSellModalOpen(false)} 
+          onSubmit={handleAddModel}
         />
       )}
     </div>
