@@ -4,9 +4,8 @@ import Hero from './components/Hero';
 import FilterSidebar from './components/FilterSidebar';
 import ModelGrid from './components/ModelGrid';
 import ModelDetailModal from './components/ModelDetailModal';
-import SellModelModal, {
-  CreatorDashboard,
-} from './components/SellModelModal';
+import SellModelModal from './components/SellModelModal';
+import CreatorDashboard from './components/CreatorDashboard';
 
 export default function App() {
   const [currentView, setCurrentView] = useState('marketplace'); // 'marketplace' or 'dashboard'
