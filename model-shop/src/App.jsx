@@ -11,10 +11,6 @@ import RecommendationModal from './components/RecommendationModal';
 import { mockModels, mockCreatorStats } from './data/mockModels';
 
 export default function App() {
-  
-
-  // Sync currentView state based on URL path
-  
   const [currentView, setCurrentView] = useState('marketplace');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedPriceTier, setSelectedPriceTier] = useState('All');
@@ -86,7 +82,6 @@ export default function App() {
         onLogout={handleLogout}
         onOpenRecommend={() => setIsRecommendModalOpen(true)}
       />
-      </div>)
 
       {currentView === 'marketplace' ? (
         <main className="max-w-7xl mx-auto px-4 py-6 space-y-8">
