@@ -188,6 +188,48 @@ export const mockModels = [
     ],
     demoUrl: "https://huggingface.co/models",
     upiId: "polystudio@upi"
+  },
+  {
+    id: "m10",
+    title: "FastAPI Backend Boilerplate Prompt",
+    creator: "@shrusti_dev",
+    category: "Text AI",
+    description: "Production-ready prompt template for generating complete FastAPI backends with SQLAlchemy, JWT authentication, and Docker support.",
+    priceTier: "Free",
+    price: 0,
+    isFree: true,
+    rating: 5.0,
+    reviewsCount: 24,
+    salesCount: 421,
+    previewImage: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&auto=format&fit=crop",
+    features: [
+      "Includes async PostgreSQL and Alembic migration structure",
+      "Pydantic v2 validation schema generation",
+      "Ready-to-use Swagger documentation setups"
+    ],
+    demoUrl: "https://huggingface.co/models",
+    upiId: "shrusti@upi"
+  },
+  {
+    id: "m11",
+    title: "Arduino IoT Node Tracker",
+    creator: "@embed_master",
+    category: "Code AI",
+    description: "Fine-tuned code assistant for embedded C/C++ targeted at Microcontroller projects, sensor logging, and GSM/GPS telemetry scripts.",
+    priceTier: "₹99 - ₹500",
+    price: 249,
+    isFree: false,
+    rating: 4.8,
+    reviewsCount: 16,
+    salesCount: 78,
+    previewImage: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&auto=format&fit=crop",
+    features: [
+      "Optimized for C++ on Arduino AVR core architecture",
+      "Includes power-saving sleep mode routines",
+      "Built-in serial debugging and NMEA parsing patterns"
+    ],
+    demoUrl: "https://huggingface.co/models",
+    upiId: "embedmaster@upi"
   }
 ];
 
@@ -206,7 +248,7 @@ export const mockCreatorStats = {
       status: "Active"
     },
     {
-      id: "m5",
+      id: "m10",
       title: "FastAPI Backend Boilerplate Prompt",
       category: "Text AI",
       price: "FREE",
