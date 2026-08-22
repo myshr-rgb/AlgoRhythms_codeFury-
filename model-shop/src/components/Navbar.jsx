@@ -1,5 +1,12 @@
 import { useState } from "react";
 import logo3 from "../assets/logo3.png";
+import { 
+  SignedIn, 
+  SignedOut, 
+  SignInButton, 
+  UserButton, 
+  useUser 
+} from "@clerk/clerk-react";
 
 const NAV_LINKS = [
   { name: "Home", targetId: "home" },
@@ -13,26 +20,20 @@ function Navbar({
   currentView = "marketplace",
   setCurrentView = () => {},
   onOpenSellModal = () => {},
-  user = null,
-  onOpenAuth = () => {},
-  onLogout = () => {},
   onOpenRecommend = () => {},
 }) {
   const [query, setQuery] = useState("");
-  
+  const { user } = useUser();
 
   const handleNavClick = (targetId) => {
-    // If clicking 'Creators', switch to dashboard view directly
     if (targetId === "creators") {
       setCurrentView("dashboard");
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
 
-    // For other links, make sure we are back on the marketplace view
     if (currentView !== "marketplace") {
       setCurrentView("marketplace");
-      // Delay slightly to let the marketplace DOM render before scrolling
       setTimeout(() => {
         const element = document.getElementById(targetId);
         if (element) element.scrollIntoView({ behavior: "smooth" });
@@ -40,7 +41,6 @@ function Navbar({
       return;
     }
 
-    // Scroll directly if already on marketplace
     const element = document.getElementById(targetId);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
@@ -51,7 +51,7 @@ function Navbar({
     <header className="sticky top-0 z-40 w-full border-b border-slate-300 bg-white/80 backdrop-blur-3xl dark:border-slate-700 dark:bg-slate-950/80">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         
-        {/* Circular Logo & Branding */}
+        {/* Logo */}
         <a 
           href="#home" 
           onClick={() => handleNavClick("home")} 
@@ -69,7 +69,7 @@ function Navbar({
           </span>
         </a>
 
-        {/* Navigation Links */}
+        {/* Navigation */}
         <nav className="hidden items-center gap-1 md:flex">
           {NAV_LINKS.map((link) => (
             <button
@@ -123,7 +123,6 @@ function Navbar({
             />
           </div>
 
-          {/* AI Recommender Trigger Button */}
           <button
             type="button"
             onClick={onOpenRecommend}
@@ -134,7 +133,6 @@ function Navbar({
             <span className="sm:hidden">Recommend</span>
           </button>
 
-          {/* Sell Button */}
           <button
             type="button"
             onClick={onOpenSellModal}
@@ -145,29 +143,27 @@ function Navbar({
             <span className="sm:hidden">Sell</span>
           </button>
 
-          {/* Authentication Badge / Login Button */}
-          {user ? (
-            <div className="flex items-center gap-2.5 border-l border-slate-200 pl-3 dark:border-slate-800">
-              <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
-                {user.name}
-              </span>
+          {/* Clerk Auth Buttons */}
+          <SignedOut>
+            <SignInButton mode="modal">
               <button
                 type="button"
-                onClick={onLogout}
-                className="rounded-md px-2.5 py-1.5 text-xs text-slate-500 hover:bg-slate-100 hover:text-rose-500 dark:text-slate-400 dark:hover:bg-slate-900 dark:hover:text-rose-400 transition-colors"
+                className="rounded-md border border-slate-300 bg-slate-100 px-3.5 py-2 text-sm font-medium text-slate-800 hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 transition-colors"
               >
-                Log Out
+                Log In
               </button>
+            </SignInButton>
+          </SignedOut>
+
+          <SignedIn>
+            <div className="flex items-center gap-2.5 border-l border-slate-200 pl-3 dark:border-slate-800">
+              <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
+                {user?.firstName || user?.primaryEmailAddress?.emailAddress.split('@')[0]}
+              </span>
+              <UserButton afterSignOutUrl="/" />
             </div>
-          ) : (
-            <button
-              type="button"
-              onClick={onOpenAuth}
-              className="rounded-md border border-slate-300 bg-slate-100 px-3.5 py-2 text-sm font-medium text-slate-800 hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 transition-colors"
-            >
-              Log In
-            </button>
-          )}
+          </SignedIn>
+
         </div>
       </div>
     </header>
