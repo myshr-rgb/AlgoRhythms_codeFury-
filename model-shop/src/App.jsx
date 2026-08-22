@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
+
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import FilterSidebar from './components/FilterSidebar';
@@ -6,6 +7,7 @@ import ModelGrid from './components/ModelGrid';
 import ModelDetailModal from './components/ModelDetailModal';
 import SellModelModal from './components/SellModelModal';
 import CreatorDashboard from './components/CreatorDashboard';
+
 
 export default function App() {
   const [currentView, setCurrentView] = useState('marketplace'); // 'marketplace' or 'dashboard'
@@ -24,7 +26,7 @@ export default function App() {
       />
 
       {currentView === 'marketplace' ? (
-        <main className="max-w-7xl mx-auto px-4 py-6 space-y-8">
+        <main className="max-w-10xl  mx-auto px-2 py-3 space-y-8">
           {/* Hero Banner */}
           <Hero onOpenSellModal={() => setIsSellModalOpen(true)} />
 
