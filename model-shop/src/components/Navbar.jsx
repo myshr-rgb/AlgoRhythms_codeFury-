@@ -9,6 +9,7 @@ function Navbar({
   onOpenSellModal = () => {},
 }) {
   const [query, setQuery] = useState("");
+  
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-300 bg-white/80 backdrop-blur-3xl dark:border-slate-700 dark:bg-slate-950/80">
