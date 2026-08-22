@@ -1,34 +1,35 @@
-import ModelCard from "./ModelCard";
+import ModelCard from './ModelCard';
+import { mockModels } from '../data/mockModels';
 
-function ModelGrid({ models = [], onModelSelect }) {
-  if (models.length === 0) {
+export default function ModelGrid({ selectedCategory, selectedPriceTier, onSelectModel }) {
+  // Filter models based on category and priceTier from your dataset
+  const filteredModels = mockModels.filter((model) => {
+    const categoryMatch = 
+      selectedCategory === 'All' || model.category === selectedCategory;
+
+    const priceMatch = 
+      selectedPriceTier === 'All' || model.priceTier === selectedPriceTier;
+
+    return categoryMatch && priceMatch;
+  });
+
+  if (filteredModels.length === 0) {
     return (
-      <section className="model-grid-empty">
-        <h2>No models found</h2>
-        <p>Try adjusting your filters or search terms.</p>
-      </section>
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-12 text-center text-slate-400">
+        No models found matching your criteria.
+      </div>
     );
   }
 
   return (
-    <section className="model-grid">
-      {models.map((model) => (
-        <div
-          key={model.id || model.name}
-          onClick={() => onModelSelect?.(model)}
-          onKeyDown={(event) => {
-            if (event.key === "Enter" || event.key === " ") {
-              onModelSelect?.(model);
-            }
-          }}
-          role={onModelSelect ? "button" : undefined}
-          tabIndex={onModelSelect ? 0 : undefined}
-        >
-          <ModelCard model={model} />
-        </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {filteredModels.map((model) => (
+        <ModelCard 
+          key={model.id} 
+          model={model} 
+          onSelectModel={onSelectModel} 
+        />
       ))}
-    </section>
+    </div>
   );
 }
-
-export default ModelGrid;
