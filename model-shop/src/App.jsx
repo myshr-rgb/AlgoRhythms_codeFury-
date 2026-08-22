@@ -10,6 +10,10 @@ import CreatorDashboard from './components/CreatorDashboard';
 import { mockModels, mockCreatorStats } from './data/mockModels';
 
 export default function App() {
+  
+
+  // Sync currentView state based on URL path
+  
   const [currentView, setCurrentView] = useState('marketplace');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedPriceTier, setSelectedPriceTier] = useState('All');
@@ -63,6 +67,7 @@ export default function App() {
         setCurrentView={setCurrentView} 
         onOpenSellModal={() => setIsSellModalOpen(true)} 
       />
+      </div>)
 
       {currentView === 'marketplace' ? (
         <main className="max-w-7xl mx-auto px-4 py-6 space-y-8">
@@ -120,6 +125,6 @@ export default function App() {
           onSubmit={handleAddModel}
         />
       )}
-    </div>
-  );
+    
+  
 }

@@ -163,7 +163,7 @@ export default function SellModelModal({ onClose, onSubmit }) {
                   className="h-56 w-full object-cover"
                 />
               ) : (
-                <div className="flex h-56 items-center justify-center bg-gradient-to-br from-indigo-100 via-purple-100 to-blue-200">
+                <div className="flex h-56 items-center justify-center bg-linear-to-br from-indigo-100 via-purple-100 to-blue-200">
                   <span className="text-5xl text-indigo-600">✦</span>
                 </div>
               )}
