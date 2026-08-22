@@ -7,6 +7,7 @@ import ModelDetailModal from './components/ModelDetailModal';
 import SellModelModal from './components/SellModelModal';
 import CreatorDashboard from './components/CreatorDashboard';
 import AuthModal from './components/AuthModal';
+import RecommendationModal from './components/RecommendationModal';
 import { mockModels, mockCreatorStats } from './data/mockModels';
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
   const [selectedModel, setSelectedModel] = useState(null);
   const [isSellModalOpen, setIsSellModalOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isRecommendModalOpen, setIsRecommendModalOpen] = useState(false);
 
   // User state persisted in localStorage
   const [user, setUser] = useState(() => {
@@ -78,6 +80,7 @@ export default function App() {
         user={user}
         onOpenAuth={() => setIsAuthModalOpen(true)}
         onLogout={handleLogout}
+        onOpenRecommend={() => setIsRecommendModalOpen(true)}
       />
 
       {currentView === 'marketplace' ? (
@@ -140,6 +143,13 @@ export default function App() {
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
         onLogin={handleLogin}
+      />
+
+      <RecommendationModal
+        isOpen={isRecommendModalOpen}
+        onClose={() => setIsRecommendModalOpen(false)}
+        models={allModels}
+        onSelectModel={(model) => setSelectedModel(model)}
       />
     </div>
   );
