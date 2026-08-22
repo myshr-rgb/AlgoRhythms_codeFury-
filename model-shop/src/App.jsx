@@ -8,6 +8,7 @@ import SellModelModal from './components/SellModelModal';
 import CreatorDashboard from './components/CreatorDashboard';
 import { mockCreatorStats } from './data/mockModels';
 
+
 export default function App() {
   const [currentView, setCurrentView] = useState('marketplace');
   const [selectedCategory, setSelectedCategory] = useState('All');
