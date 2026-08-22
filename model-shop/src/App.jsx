@@ -6,8 +6,8 @@ import ModelGrid from './components/ModelGrid';
 import ModelDetailModal from './components/ModelDetailModal';
 import SellModelModal from './components/SellModelModal';
 import CreatorDashboard from './components/CreatorDashboard';
-import { mockCreatorStats } from './data/mockModels';
-
+// Import mockModels alongside mockCreatorStats
+import { mockModels, mockCreatorStats } from './data/mockModels';
 
 export default function App() {
   
@@ -31,22 +31,34 @@ export default function App() {
     localStorage.setItem('creatorListings', JSON.stringify(creatorListings));
   }, [creatorListings]);
 
+  // Format incoming form data to match the standard model structure
   const handleAddModel = (newModel) => {
-    const formattedModel = {
-      ...newModel,
-      id: Date.now(),
-      sales: '0 sales',
-      status: 'Active',
-    };
-
-    setCreatorListings((prev) => [formattedModel, ...prev]);
-    setIsSellModalOpen(false);
-    setCurrentView('dashboard');
+  const formattedModel = {
+    ...newModel,
+    id: Date.now(),
+    title: newModel.title || newModel.name || 'Untitled Model',
+    creator: newModel.creator || 'Anonymous',
+    category: newModel.category || 'General',
+    price: newModel.price ? Number(newModel.price) : 0,
+    priceTier: Number(newModel.price) > 0 ? 'Paid' : 'Free',
+    rating: 5.0,
+    sales: '0 sales',
+    status: 'Active',
+    description: newModel.description || 'No description provided.',
+    tags: newModel.tags || ['AI', 'Custom'],
   };
+
+  setCreatorListings((prev) => [formattedModel, ...prev]);
+  setIsSellModalOpen(false);
+  setCurrentView('marketplace');
+};
 
   const handleDeleteListing = (id) => {
     setCreatorListings((prev) => prev.filter((item) => item.id !== id));
   };
+
+  // Combine default mock models with user-created listings
+  const allModels = [...creatorListings, ...(mockModels || [])];
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans">
@@ -59,9 +71,12 @@ export default function App() {
 
       {currentView === 'marketplace' ? (
         <main className="max-w-7xl mx-auto px-4 py-6 space-y-8">
-          <Hero onOpenSellModal={() => setIsSellModalOpen(true)} />
+          <div id="home">
+            <Hero onOpenSellModal={() => setIsSellModalOpen(true)} />
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <aside className="md:col-span-1">
+            <aside id="categories" className="md:col-span-1">
               <FilterSidebar 
                 selectedCategory={selectedCategory} 
                 setSelectedCategory={setSelectedCategory} 
@@ -69,8 +84,11 @@ export default function App() {
                 setSelectedPriceTier={setSelectedPriceTier} 
               />
             </aside>
-            <section className="md:col-span-3">
+
+            <section id="explore" className="md:col-span-3">
+              {/* Pass the combined allModels array down */}
               <ModelGrid 
+                models={allModels}
                 selectedCategory={selectedCategory} 
                 selectedPriceTier={selectedPriceTier} 
                 onSelectModel={(model) => setSelectedModel(model)} 
@@ -78,8 +96,8 @@ export default function App() {
             </section>
           </div>
         </main>
-      ) :(
-        <main className="max-w-7xl mx-auto px-4 py-8">
+      ) : (
+        <main id="creators" className="max-w-7xl mx-auto px-4 py-8">
           <CreatorDashboard 
             onOpenSellModal={() => setIsSellModalOpen(true)} 
             listings={creatorListings}
@@ -87,6 +105,12 @@ export default function App() {
           />
         </main>
       )}
+
+      <footer id="about" className="border-t border-slate-800 bg-slate-900/50 py-8 mt-12">
+        <div className="max-w-7xl mx-auto px-4 text-center text-slate-400 text-sm">
+          <p>© {new Date().getFullYear()} AI Model Shop. All rights reserved.</p>
+        </div>
+      </footer>
 
       {selectedModel && (
         <ModelDetailModal 

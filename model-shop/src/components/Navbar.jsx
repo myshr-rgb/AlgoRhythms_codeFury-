@@ -1,7 +1,13 @@
 import { useState } from "react";
 import logo3 from "../assets/logo3.png";
 
-const NAV_LINKS = ["Home", "Categories", "Explore", "Creators", "About"];
+const NAV_LINKS = [
+  { name: "Home", targetId: "home" },
+  { name: "Categories", targetId: "categories" },
+  { name: "Explore", targetId: "explore" },
+  { name: "Creators", targetId: "creators" },
+  { name: "About", targetId: "about" },
+];
 
 function Navbar({
   currentView = "marketplace",
@@ -11,10 +17,36 @@ function Navbar({
   const [query, setQuery] = useState("");
   
 
+  const handleNavClick = (targetId) => {
+    // If clicking 'Creators', switch to dashboard view directly
+    if (targetId === "creators") {
+      setCurrentView("dashboard");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    // For other links, make sure we are back on the marketplace view
+    if (currentView !== "marketplace") {
+      setCurrentView("marketplace");
+      // Delay slightly to let the marketplace DOM render before scrolling
+      setTimeout(() => {
+        const element = document.getElementById(targetId);
+        if (element) element.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+      return;
+    }
+
+    // Scroll directly if already on marketplace
+    const element = document.getElementById(targetId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-300 bg-white/80 backdrop-blur-3xl dark:border-slate-700 dark:bg-slate-950/80">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
-        <a href="#top" className="flex items-center gap-2">
+        <a href="#home" onClick={() => handleNavClick("home")} className="flex items-center gap-2">
           <img src={logo3} alt="AI Model Shop" className="h-25 w-25 object-contain bg-blue-950" />
           <span className="hidden text-sm font-semibold text-slate-900 dark:text-white sm:inline">
             AI Model Shop
@@ -24,14 +56,17 @@ function Navbar({
         <nav className="hidden items-center gap-1 md:flex">
           {NAV_LINKS.map((link) => (
             <button
-              key={link}
+              key={link.name}
               type="button"
-              className="rounded-md px-3 py-2 text-sm font-medium text-slate-600 transition-colors dark:text-slate-400 dark:hover:text-white"
+              onClick={() => handleNavClick(link.targetId)}
+              className="rounded-md px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:text-white dark:text-slate-400 dark:hover:text-white"
             >
-              {link}
+              {link.name}
             </button>
           ))}
         </nav>
+
+        {/* View Toggle */}
         <div className="hidden items-center rounded-lg bg-slate-100 p-1 text-sm font-medium dark:bg-slate-900 sm:flex">
           <button
             type="button"
@@ -57,6 +92,7 @@ function Navbar({
           </button>
         </div>
 
+        {/* Search & Actions */}
         <div className="flex items-center gap-2">
           <div className="relative hidden md:block">
             <span className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" aria-hidden="true">
@@ -86,6 +122,3 @@ function Navbar({
 }
 
 export default Navbar;
-
-
-         
