@@ -1,4 +1,7 @@
+import React from "react";
 import { useState } from "react";
+import {NavLink} from "react-router-dom";
+
 import logo3 from "../assets/logo3.png";
 
 const NAV_LINKS = ["Home", "Categories", "Explore", "Creators", "About"];
@@ -31,7 +34,6 @@ function Navbar({
             </button>
           ))}
         </nav>
-
         <div className="hidden items-center rounded-lg bg-slate-100 p-1 text-sm font-medium dark:bg-slate-900 sm:flex">
           <button
             type="button"
