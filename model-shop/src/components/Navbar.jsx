@@ -19,6 +19,7 @@ function Navbar({
   onOpenRecommend = () => {},
 }) {
   const [query, setQuery] = useState("");
+  
 
   const handleNavClick = (targetId) => {
     // If clicking 'Creators', switch to dashboard view directly
