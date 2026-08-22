@@ -1,7 +1,4 @@
-import React from "react";
 import { useState } from "react";
-import {NavLink} from "react-router-dom";
-
 import logo3 from "../assets/logo3.png";
 
 const NAV_LINKS = ["Home", "Categories", "Explore", "Creators", "About"];
