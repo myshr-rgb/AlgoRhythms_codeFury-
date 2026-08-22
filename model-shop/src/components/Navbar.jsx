@@ -47,6 +47,11 @@ function Navbar({
     }
   };
 
+  const handleSellClick = () => {
+    onOpenSellModal();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-300 bg-white/80 backdrop-blur-3xl dark:border-slate-700 dark:bg-slate-950/80">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
@@ -135,7 +140,7 @@ function Navbar({
 
           <button
             type="button"
-            onClick={onOpenSellModal}
+            onClick={handleSellClick}
             className="flex items-center gap-1.5 rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-700 active:bg-indigo-800"
           >
             <span aria-hidden="true">+</span>

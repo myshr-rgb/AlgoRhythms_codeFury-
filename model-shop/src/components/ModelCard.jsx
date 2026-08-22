@@ -1,4 +1,9 @@
 export default function ModelCard({ model, onSelectModel }) {
+  const fallbackImage = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=60";
+
+  // Check previewImage first, then image, then fallback
+  const imageSource = model?.previewImage || model?.image || fallbackImage;
+
   return (
     <div 
       onClick={() => onSelectModel && onSelectModel(model)}
@@ -8,9 +13,13 @@ export default function ModelCard({ model, onSelectModel }) {
         {/* Preview Image */}
         <div className="h-40 bg-slate-800 rounded-xl mb-4 overflow-hidden relative">
           <img 
-            src={model?.previewImage} 
-            alt={model?.title} 
+            src={imageSource} 
+            alt={model?.title || "AI Model"} 
             className="w-full h-full object-cover" 
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = fallbackImage;
+            }}
           />
           <span className="absolute top-2 right-2 bg-black/60 backdrop-blur-md text-xs px-2 py-1 rounded-md text-slate-200">
             ★ {model?.rating || '5.0'}
@@ -18,7 +27,9 @@ export default function ModelCard({ model, onSelectModel }) {
         </div>
 
         {/* Info */}
-        <div className="text-xs text-slate-500 mb-1">{model?.creator}</div>
+        {model?.creator && (
+          <div className="text-xs text-slate-500 mb-1">{model.creator}</div>
+        )}
         <h4 className="text-white font-bold text-base line-clamp-1">{model?.title}</h4>
         <p className="text-slate-400 text-xs mt-1 line-clamp-2">
           {model?.description}
@@ -31,7 +42,7 @@ export default function ModelCard({ model, onSelectModel }) {
           {model?.category}
         </span>
         <span className="text-emerald-400 font-semibold text-sm">
-          {model?.price === 0 ? 'Free' : `₹${model?.price}`}
+          {model?.price === 0 || model?.price === 'FREE' ? 'Free' : `₹${model?.price}`}
         </span>
       </div>
     </div>
