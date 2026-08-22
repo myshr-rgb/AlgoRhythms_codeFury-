@@ -6,7 +6,8 @@ import ModelGrid from './components/ModelGrid';
 import ModelDetailModal from './components/ModelDetailModal';
 import SellModelModal from './components/SellModelModal';
 import CreatorDashboard from './components/CreatorDashboard';
-// Import mockModels alongside mockCreatorStats
+import AuthModal from './components/AuthModal';
+import RecommendationModal from './components/RecommendationModal';
 import { mockModels, mockCreatorStats } from './data/mockModels';
 
 export default function App() {
@@ -19,45 +20,59 @@ export default function App() {
   const [selectedPriceTier, setSelectedPriceTier] = useState('All');
   const [selectedModel, setSelectedModel] = useState(null);
   const [isSellModalOpen, setIsSellModalOpen] = useState(false);
-  
-  // 1. Initialize state from localStorage, falling back to mockCreatorStats if empty
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isRecommendModalOpen, setIsRecommendModalOpen] = useState(false);
+
+  // User state persisted in localStorage
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem('appUser');
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
+
   const [creatorListings, setCreatorListings] = useState(() => {
     const savedListings = localStorage.getItem('creatorListings');
     return savedListings ? JSON.parse(savedListings) : (mockCreatorStats.listedModels || []);
   });
 
-  // 2. Save to localStorage whenever creatorListings changes
   useEffect(() => {
     localStorage.setItem('creatorListings', JSON.stringify(creatorListings));
   }, [creatorListings]);
 
-  // Format incoming form data to match the standard model structure
-  const handleAddModel = (newModel) => {
-  const formattedModel = {
-    ...newModel,
-    id: Date.now(),
-    title: newModel.title || newModel.name || 'Untitled Model',
-    creator: newModel.creator || 'Anonymous',
-    category: newModel.category || 'General',
-    price: newModel.price ? Number(newModel.price) : 0,
-    priceTier: Number(newModel.price) > 0 ? 'Paid' : 'Free',
-    rating: 5.0,
-    sales: '0 sales',
-    status: 'Active',
-    description: newModel.description || 'No description provided.',
-    tags: newModel.tags || ['AI', 'Custom'],
+  const handleLogin = (userData) => {
+    setUser(userData);
+    localStorage.setItem('appUser', JSON.stringify(userData));
   };
 
-  setCreatorListings((prev) => [formattedModel, ...prev]);
-  setIsSellModalOpen(false);
-  setCurrentView('marketplace');
-};
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('appUser');
+  };
+
+  const handleAddModel = (newModel) => {
+    const formattedModel = {
+      ...newModel,
+      id: Date.now(),
+      title: newModel.title || newModel.name || 'Untitled Model',
+      creator: user ? user.name : 'Anonymous',
+      category: newModel.category || 'General',
+      price: newModel.price ? Number(newModel.price) : 0,
+      priceTier: Number(newModel.price) > 0 ? 'Paid' : 'Free',
+      rating: 5.0,
+      sales: '0 sales',
+      status: 'Active',
+      description: newModel.description || 'No description provided.',
+      tags: newModel.tags || ['AI', 'Custom'],
+    };
+
+    setCreatorListings((prev) => [formattedModel, ...prev]);
+    setIsSellModalOpen(false);
+    setCurrentView('marketplace');
+  };
 
   const handleDeleteListing = (id) => {
     setCreatorListings((prev) => prev.filter((item) => item.id !== id));
   };
 
-  // Combine default mock models with user-created listings
   const allModels = [...creatorListings, ...(mockModels || [])];
 
   return (
@@ -66,6 +81,10 @@ export default function App() {
         currentView={currentView} 
         setCurrentView={setCurrentView} 
         onOpenSellModal={() => setIsSellModalOpen(true)} 
+        user={user}
+        onOpenAuth={() => setIsAuthModalOpen(true)}
+        onLogout={handleLogout}
+        onOpenRecommend={() => setIsRecommendModalOpen(true)}
       />
       </div>)
 
@@ -86,7 +105,6 @@ export default function App() {
             </aside>
 
             <section id="explore" className="md:col-span-3">
-              {/* Pass the combined allModels array down */}
               <ModelGrid 
                 models={allModels}
                 selectedCategory={selectedCategory} 
@@ -125,6 +143,19 @@ export default function App() {
           onSubmit={handleAddModel}
         />
       )}
-    
-  
+
+      <AuthModal 
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onLogin={handleLogin}
+      />
+
+      <RecommendationModal
+        isOpen={isRecommendModalOpen}
+        onClose={() => setIsRecommendModalOpen(false)}
+        models={allModels}
+        onSelectModel={(model) => setSelectedModel(model)}
+      />
+    </div>
+  );
 }

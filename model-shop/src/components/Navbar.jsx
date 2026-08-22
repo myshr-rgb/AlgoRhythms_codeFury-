@@ -13,6 +13,10 @@ function Navbar({
   currentView = "marketplace",
   setCurrentView = () => {},
   onOpenSellModal = () => {},
+  user = null,
+  onOpenAuth = () => {},
+  onLogout = () => {},
+  onOpenRecommend = () => {},
 }) {
   const [query, setQuery] = useState("");
   
@@ -46,13 +50,26 @@ function Navbar({
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-300 bg-white/80 backdrop-blur-3xl dark:border-slate-700 dark:bg-slate-950/80">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
-        <a href="#home" onClick={() => handleNavClick("home")} className="flex items-center gap-2">
-          <img src={logo3} alt="AI Model Shop" className="h-25 w-25 object-contain bg-blue-950" />
-          <span className="hidden text-sm font-semibold text-slate-900 dark:text-white sm:inline">
+        
+        {/* Circular Logo & Branding */}
+        <a 
+          href="#home" 
+          onClick={() => handleNavClick("home")} 
+          className="flex items-center gap-3 group shrink-0"
+        >
+          <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-900 ring-2 ring-indigo-500/30 overflow-hidden shadow-md transition-transform group-hover:scale-105">
+            <img 
+              src={logo3} 
+              alt="AI Model Shop" 
+              className="h-full w-full object-cover" 
+            />
+          </div>
+          <span className="hidden text-base font-bold tracking-tight text-slate-900 dark:text-white sm:inline whitespace-nowrap">
             AI Model Shop
           </span>
         </a>
 
+        {/* Navigation Links */}
         <nav className="hidden items-center gap-1 md:flex">
           {NAV_LINKS.map((link) => (
             <button
@@ -106,6 +123,18 @@ function Navbar({
             />
           </div>
 
+          {/* AI Recommender Trigger Button */}
+          <button
+            type="button"
+            onClick={onOpenRecommend}
+            className="flex items-center gap-1.5 rounded-md border border-indigo-500/30 bg-indigo-950/50 px-3 py-2 text-sm font-medium text-indigo-300 hover:bg-indigo-900/50 hover:text-white transition-colors"
+          >
+            <span aria-hidden="true">✨</span>
+            <span className="hidden sm:inline">AI Recommender</span>
+            <span className="sm:hidden">Recommend</span>
+          </button>
+
+          {/* Sell Button */}
           <button
             type="button"
             onClick={onOpenSellModal}
@@ -115,6 +144,30 @@ function Navbar({
             <span className="hidden sm:inline">Sell your model</span>
             <span className="sm:hidden">Sell</span>
           </button>
+
+          {/* Authentication Badge / Login Button */}
+          {user ? (
+            <div className="flex items-center gap-2.5 border-l border-slate-200 pl-3 dark:border-slate-800">
+              <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
+                {user.name}
+              </span>
+              <button
+                type="button"
+                onClick={onLogout}
+                className="rounded-md px-2.5 py-1.5 text-xs text-slate-500 hover:bg-slate-100 hover:text-rose-500 dark:text-slate-400 dark:hover:bg-slate-900 dark:hover:text-rose-400 transition-colors"
+              >
+                Log Out
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={onOpenAuth}
+              className="rounded-md border border-slate-300 bg-slate-100 px-3.5 py-2 text-sm font-medium text-slate-800 hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 transition-colors"
+            >
+              Log In
+            </button>
+          )}
         </div>
       </div>
     </header>
