@@ -36,7 +36,7 @@ export default function Hero() {
           {/* Metrics / Stats */}
           <div className="grid grid-cols-3 gap-8 pt-8 border-t border-slate-200/80 w-full max-w-lg mt-4">
             <div>
-              <div className="text-2xl md:text-3xl font-bold text-slate-900">120+</div>
+              <div className="text-2xl md:text-3xl font-bold text-slate-900">100+</div>
               <div className="text-xs md:text-sm text-slate-500 font-medium mt-1">Models</div>
             </div>
             <div>

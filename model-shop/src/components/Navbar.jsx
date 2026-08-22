@@ -1,5 +1,5 @@
 import { useState } from "react";
-import logo from "../assets/logo.png";
+import logo3 from "../assets/logo3.png";
 
 const NAV_LINKS = ["Home", "Categories", "Explore", "Creators", "About"];
 
@@ -14,7 +14,7 @@ function Navbar({
     <header className="sticky top-0 z-40 w-full border-b border-slate-300 bg-white/80 backdrop-blur-3xl dark:border-slate-700 dark:bg-slate-950/80">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <a href="#top" className="flex items-center gap-2">
-          <img src={logo} alt="AI Model Shop" className="h-8 w-8 object-contain" />
+          <img src={logo3} alt="AI Model Shop" className="h-25 w-25 object-contain bg-blue-950" />
           <span className="hidden text-sm font-semibold text-slate-900 dark:text-white sm:inline">
             AI Model Shop
           </span>
@@ -25,7 +25,7 @@ function Navbar({
             <button
               key={link}
               type="button"
-              className="rounded-md px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+              className="rounded-md px-3 py-2 text-sm font-medium text-slate-600 transition-colors dark:text-slate-400 dark:hover:text-white"
             >
               {link}
             </button>

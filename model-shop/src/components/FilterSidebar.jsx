@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function FilterSidebar() {
+ function FilterSidebar() {
   return (
     <aside className="w-full md:w-64 shrink-0 font-sans pr-6">
       {/* Header */}
@@ -110,3 +110,4 @@ export default function FilterSidebar() {
     </aside>
   );
 }
+export default FilterSidebar;

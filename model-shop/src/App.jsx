@@ -24,7 +24,7 @@ export default function App() {
       />
 
       {currentView === 'marketplace' ? (
-        <main className="max-w-7xl mx-auto px-4 py-6 space-y-8">
+        <main className="max-w-10xl mx-auto px-4 py-6 space-y-8">
           {/* Hero Banner */}
           <Hero onOpenSellModal={() => setIsSellModalOpen(true)} />
 
